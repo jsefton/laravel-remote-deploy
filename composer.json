@@ -1,0 +1,22 @@
+{
+    "name": "jsefton/laravel-remote-deploy",
+    "type": "library",
+    "description": "Deploy Laravel sites to a remote server directly from Artisan",
+    "keywords": ["laravel","deploy","build","artisan","deployment","production","go live"],
+    "homepage": "https://github.com/jsefton/laravel-remote-deploy",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamie Sefton",
+            "email": "info@jamie-sefton.co.uk"
+        }
+    ],
+    "require": {
+        "laravel/framework": "5.3.* | 5.4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Jsefton\\LaravelRemoteDeploy\\": "src"
+        }
+    }
+}
