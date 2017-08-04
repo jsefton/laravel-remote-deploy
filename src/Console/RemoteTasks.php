@@ -110,7 +110,7 @@ class RemoteTasks extends Command
                         $this->line(" - Uploaded to: " . $file['path']);
                         $connection->putString($file['path'], $file['content']);
                         if(isset($file['after'])) {
-                            $this->runCommands($connection, $file['after']);
+                            $this->runCommands($connection, $file['after'], $baseDirectory);
                         }
                     }
                 }
