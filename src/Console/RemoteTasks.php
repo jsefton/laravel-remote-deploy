@@ -103,26 +103,49 @@ class RemoteTasks extends Command
                 ];
 
                 foreach ($commands as $command => $options) {
-                    if ($options) {
+                    if(is_array($options)) {
                         if (isset($options['prompt'])) {
-                            $commandExtra = $this->ask($options['prompt'], "master");
+                            $commandExtra = $this->ask($options['prompt']);
                             $command .= " " . $commandExtra;
                         }
+
+                        if (isset($options['confirm'])) {
+                            if (!$this->confirm($options['confirm'])) {
+                                continue;
+                            }
+                        }
+                    } else {
+                        $command = $options;
                     }
+
                     $taskCommands[] = $command;
                 }
 
                 $this->info('Running: ' . $task);
-                print_r($taskCommands);
+                $this->runCommands($connection, $taskCommands);
 
-                /*$connection->run([
-                    'cd ~/',
-                    'mkdir sites'
-                ], function($line) {
-                    $this->line($line);
-                });*/
+                if(isset($tasks[$task]['files'])) {
+                    $this->info('Uploading files to remote...');
+                    $files = $tasks[$task]['files'];
+                    foreach($files as $file) {
+                        $this->line(" - Uploaded to: " . $file['path']);
+                        $connection->putString($file['path'], $file['content']);
+                        if(isset($file['after'])) {
+                            $this->runCommands($connection, $file['after']);
+                        }
+                    }
+                }
+
+                $this->info("Finished: " . $task);
             }
         }
 
+    }
+
+    protected function runCommands($connection, $commands)
+    {
+        $connection->run($commands, function($line) {
+            echo $line.PHP_EOL;
+        });
     }
 }
