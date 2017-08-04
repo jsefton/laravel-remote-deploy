@@ -3,6 +3,7 @@
 namespace Jsefton\LaravelRemoteDeploy;
 
 use Illuminate\Support\ServiceProvider;
+use Jsefton\LaravelRemoteDeploy\Console\RemoteConfigClear;
 use Jsefton\LaravelRemoteDeploy\Console\RemoteTasks;
 
 class LaravelRemoteDeployProvider extends ServiceProvider
@@ -20,7 +21,8 @@ class LaravelRemoteDeployProvider extends ServiceProvider
             $this->app->register( \Collective\Remote\RemoteServiceProvider::class);
 
             $this->commands([
-                RemoteTasks::class
+                RemoteTasks::class,
+                RemoteConfigClear::class
             ]);
 
             // Publish config file to config folder
