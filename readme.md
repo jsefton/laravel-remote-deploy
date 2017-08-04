@@ -71,6 +71,12 @@ When in the CLI run the below to execute the command and begin the prompts
 php artisan remote:tasks
 ```
 
+To clear out any stored credentials in temporary files run:
+
+```bash
+php artisan remote:clear
+```
+
 ### TODO
 - Include Migrate Environments package to allow easy database updating with deploy
 - Add ability to run same task on multiple servers
