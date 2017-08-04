@@ -98,31 +98,10 @@ class RemoteTasks extends Command
                 $this->info("Setting up: " . $task);
                 $baseDirectory = $tasks[$task]['directory'];
                 $commands = $tasks[$task]['commands'];
-                $taskCommands = [
-                    'cd ' . $baseDirectory
-                ];
 
-                foreach ($commands as $command => $options) {
-                    if(is_array($options)) {
-                        if (isset($options['prompt'])) {
-                            $commandExtra = $this->ask($options['prompt']);
-                            $command .= " " . $commandExtra;
-                        }
-
-                        if (isset($options['confirm'])) {
-                            if (!$this->confirm($options['confirm'])) {
-                                continue;
-                            }
-                        }
-                    } else {
-                        $command = $options;
-                    }
-
-                    $taskCommands[] = $command;
-                }
 
                 $this->info('Running: ' . $task);
-                $this->runCommands($connection, $taskCommands);
+                $this->runCommands($connection, $commands, $baseDirectory);
 
                 if(isset($tasks[$task]['files'])) {
                     $this->info('Uploading files to remote...');
@@ -142,9 +121,34 @@ class RemoteTasks extends Command
 
     }
 
-    protected function runCommands($connection, $commands)
+    protected function runCommands($connection, $commands, $baseDirectory = false)
     {
-        $connection->run($commands, function($line) {
+        if($baseDirectory) {
+            $taskCommands = [
+                'cd ' . $baseDirectory
+            ];
+        } else {
+            $taskCommands = [];
+        }
+        foreach ($commands as $command => $options) {
+            if(is_array($options)) {
+                if (isset($options['prompt'])) {
+                    $commandExtra = $this->ask($options['prompt']);
+                    $command .= " " . $commandExtra;
+                }
+
+                if (isset($options['confirm'])) {
+                    if (!$this->confirm($options['confirm'])) {
+                        continue;
+                    }
+                }
+            } else {
+                $command = $options;
+            }
+            $taskCommands[] = $command;
+        }
+
+        $connection->run($taskCommands, function($line) {
             echo $line.PHP_EOL;
         });
     }
