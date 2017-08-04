@@ -35,6 +35,34 @@ Inside `config/laravel-remote-deploy.php` you will have 2 sets of configurations
 
 This includes `servers`, which is an array of all the possible connections you will want to create and connect too.
 
+This also includes a set of `tasks` that you can then select from to run. It can contain multiple commands and feature file uploads. Below is an example config for setup and deploy:
+
+```php
+'setup' => [
+    'directory' => '/',
+    'commands' => [
+        "ssh-keygen -f ~/.ssh/id_rsa -t rsa -N '' " => [
+            'confirm' => 'Do you want to create an ssh key'
+        ],
+        'cat ~/.ssh/id_rsa.pub',
+        'cd /var/www/html',
+        'git clone' => [
+            'confirm' => 'Have you installed your ssh key with the repository yet?',
+            'prompt' => 'Please enter a url for the git repository'
+        ]
+    ]
+],
+'deploy' => [
+    'directory' => '/var/www/html',
+    'commands' => [
+        'cd' => [
+            'prompt' => 'Please enter a folder name of the site'
+        ],
+        'git pull origin master'
+    ]
+]
+```
+
 ### Usage
 
 When in the CLI run the below to execute the command and begin the prompts

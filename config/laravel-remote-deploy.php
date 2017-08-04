@@ -35,8 +35,11 @@ return [
             ]
         ],
         'deploy' => [
-            'directory' => '/var/www/html/thenextsteps',
+            'directory' => '/var/www/html',
             'commands' => [
+                'cd' => [
+                    'prompt' => 'Please enter a folder name of the site'
+                ],
                 'git pull origin master'
             ]
         ]
