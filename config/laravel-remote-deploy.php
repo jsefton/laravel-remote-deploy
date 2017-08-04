@@ -17,5 +17,13 @@ return [
         'Local',
         'Staging',
         'Production'
+    ],
+
+    'tasks' => [
+        'deploy' => [
+            'git pull origin' => [
+                'prompt' => 'Please enter a branch you want to deploy'
+            ]
+        ]
     ]
 ];

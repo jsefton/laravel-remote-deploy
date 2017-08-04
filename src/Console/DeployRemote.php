@@ -2,6 +2,7 @@
 
 namespace Jsefton\LaravelRemoteDeploy\Console;
 
+use Collective\Remote\RemoteFacade as SSH;
 use Illuminate\Console\Command;
 
 class DeployRemote extends Command
@@ -49,6 +50,42 @@ class DeployRemote extends Command
 
         // Stored json file of credentials (Note the storage folder should be ignored by git, therefore not committed)
         $filePath = storage_path() . "/app/laravel-deploy-remote-" . $this->env . ".json";
+
+
+        $tasks = config('laravel-remote-deploy.tasks');
+        if($tasks) {
+            foreach($tasks as $task => $commands) {
+                $this->info("Setting up: " . $task);
+
+                $taskCommands = [];
+
+                foreach($commands as $command => $options) {
+                    if ($options) {
+                        if (isset($options['prompt'])) {
+                            $commandExtra = $this->ask($options['prompt'], "master");
+                            $command .= " " . $commandExtra;
+                        }
+                    }
+                    $taskCommands[] = $command;
+                }
+
+                $this->info('Running: ' . $task);
+                print_r($taskCommands);
+            }
+        }
+
+        SSH::connect([
+            'host'      => '192.168.10.10',
+            'username'  => 'vagrant',
+            'password'  => '',
+            'key'       => '',
+            'keytext'   => '',
+            'keyphrase' => '',
+            'agent'     => '',
+            'timeout'   => 10,
+        ]);
+
+        die;
 
         // Check if we have previously saved details for the set environment
         if(file_exists($filePath)) {

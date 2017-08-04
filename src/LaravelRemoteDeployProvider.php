@@ -16,6 +16,9 @@ class LaravelRemoteDeployProvider extends ServiceProvider
     {
         // Register the command
         if ($this->app->runningInConsole()) {
+
+            $this->app->register( \Collective\Remote\RemoteServiceProvider::class);
+
             $this->commands([
                 DeployRemote::class
             ]);
