@@ -8,12 +8,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can configure the available environments that are available when
-    | running php artisan deploy:remote. Each of these will create a temp
+    | running php artisan remote:tasks. Each of these will create a temp
     | config json file within json for future usage.
     |
     */
 
-    'environments' => [
+    'servers' => [
         'Local',
         'Staging',
         'Production'
