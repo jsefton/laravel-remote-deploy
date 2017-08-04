@@ -49,3 +49,59 @@ php artisan remote:tasks
 - Build ability to create custom defined commands / tasks to be ran on a 'build'
 - Include Migrate Environments package to allow easy database updating with deploy
 - Enable multiple environments / remote targets to be defined
+
+
+### Provision task
+
+THIS IS CURRENTLY IN DEVELOPMENT
+
+By adding the below in your tasks config it will allow you to provision a basic LEMP stack
+```php
+'reboot' => [
+    'directory' => '/',
+    'commands' => [
+        'reboot'
+    ]
+],
+'provision' => [
+    'directory' => '/',
+    'commands' => [
+        'sudo apt-get update',
+        'sudo apt-get install nginx -y',
+        'sudo apt-get install mysql-server -y',
+        'sudo apt-get install php-fpm php-mysql -y'
+    ],
+    'files' => [
+        [
+            'path' => '/etc/nginx/sites-available/default',
+            'content' => 'server {
+listen 80 default_server;
+listen [::]:80 default_server;
+
+root /var/www/html;
+index index.php index.html index.htm index.nginx-debian.html;
+
+server_name server_domain_or_IP;
+
+location / {
+    try_files $uri $uri/ =404;
+}
+
+location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+}
+
+location ~ /\.ht {
+    deny all;
+}
+}',
+            'after' => [
+                'sudo nginx -t',
+                'sudo systemctl reload nginx'
+            ]
+        ]
+    ]
+]
+
+```
