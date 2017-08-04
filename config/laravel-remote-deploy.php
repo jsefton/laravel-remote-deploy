@@ -20,9 +20,24 @@ return [
     ],
 
     'tasks' => [
+        'setup' => [
+            'directory' => '/',
+            'commands' => [
+                "ssh-keygen -f ~/.ssh/id_rsa -t rsa -N '' " => [
+                    'confirm' => 'Do you want to create an ssh key'
+                ],
+                'cat ~/.ssh/id_rsa.pub',
+                'cd /var/www/html',
+                'git clone' => [
+                    'confirm' => 'Have you installed your ssh key with the repository yet?',
+                    'prompt' => 'Please enter a url for the git repository'
+                ]
+            ]
+        ],
         'deploy' => [
-            'git pull origin' => [
-                'prompt' => 'Please enter a branch you want to deploy'
+            'directory' => '/var/www/html/thenextsteps',
+            'commands' => [
+                'git pull origin master'
             ]
         ]
     ]
