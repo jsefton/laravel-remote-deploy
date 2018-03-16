@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsefton\LaravelRemoteDeploy\Console;
+namespace JSefton\LaravelRemoteDeploy\Console;
 
 use Illuminate\Console\Command;
 

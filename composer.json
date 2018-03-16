@@ -12,12 +12,12 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "^5.3",
         "laravelcollective/remote": "^5.4"
     },
     "autoload": {
-        "psr-0": {
-            "Jsefton\\LaravelRemoteDeploy\\": "src"
+        "psr-4": {
+            "JSefton\\LaravelRemoteDeploy\\": "src/"
         }
     }
 }

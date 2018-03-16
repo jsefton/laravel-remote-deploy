@@ -1,10 +1,10 @@
 <?php
 
-namespace Jsefton\LaravelRemoteDeploy;
+namespace JSefton\LaravelRemoteDeploy;
 
 use Illuminate\Support\ServiceProvider;
-use Jsefton\LaravelRemoteDeploy\Console\RemoteConfigClear;
-use Jsefton\LaravelRemoteDeploy\Console\RemoteTasks;
+use JSefton\LaravelRemoteDeploy\Console\RemoteConfigClear;
+use JSefton\LaravelRemoteDeploy\Console\RemoteTasks;
 
 class LaravelRemoteDeployProvider extends ServiceProvider
 {

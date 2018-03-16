@@ -1,6 +1,6 @@
 <?php
 
-namespace Jsefton\LaravelRemoteDeploy\Console;
+namespace JSefton\LaravelRemoteDeploy\Console;
 
 use Collective\Remote\RemoteFacade as SSH;
 use Illuminate\Console\Command;
